@@ -103,7 +103,7 @@ async fn main() -> Result<(), Error> {
     let mut price_change: u32 = 0;
     let mut previous_result_price = 0 as u128;
     let start = Instant::now();
-    for i in 0..10 {
+    for i in 0..50 {
         let new_matcha_price: u128 = get_matcha_price().await.unwrap();
         let new_1inch_price: u128 = get_1inch_price().await.unwrap();
         if i != 0 {
@@ -118,7 +118,7 @@ async fn main() -> Result<(), Error> {
         // }
         previous_result_price = u128::max(new_matcha_price, new_1inch_price).clone();
 
-        tokio::time::sleep(Duration::from_secs(1)).await;
+        tokio::time::sleep(Duration::from_secs(5)).await;
     }
 
     let duration = start.elapsed();
