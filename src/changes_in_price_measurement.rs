@@ -37,25 +37,26 @@ pub struct Source {
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Order {
-    pub chain_id: i64,
-    pub exchange_address: String,
-    pub maker_address: String,
-    pub taker_address: String,
-    pub fee_recipient_address: String,
-    pub sender_address: String,
-    pub maker_asset_amount: String,
-    pub taker_asset_amount: String,
-    pub maker_fee: String,
-    pub taker_fee: String,
-    pub expiration_time_seconds: String,
-    pub salt: String,
-    pub maker_asset_data: String,
-    pub taker_asset_data: String,
-    pub maker_fee_asset_data: String,
-    pub taker_fee_asset_data: String,
-    pub signature: String,
+    pub maker_token: String,
+    pub taker_token: String,
+    pub maker_amount: String,
+    pub taker_amount: String,
+    pub fill_data: FillData,
+    pub source: String,
+    pub source_path_id: String,
+    #[serde(rename = "type")]
+    pub type_field: i64,
 }
 
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct FillData {
+    pub token_address_path: Option<Vec<String>>,
+    pub router: Option<String>,
+    pub pool_address: Option<String>,
+    pub network_address: Option<String>,
+    pub path: Option<Vec<String>>,
+}
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct RootInch {
