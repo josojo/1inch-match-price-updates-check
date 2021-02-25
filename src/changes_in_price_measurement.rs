@@ -104,7 +104,9 @@ async fn main() -> Result<(), Error> {
     let mut price_change: u32 = 0;
     let mut previous_result_price = 0 as u128;
     let start = Instant::now();
-    for i in 0..50 {
+    let number_of_tests = 100u128;
+    let mut sum_price_differences = 0_f64;
+    for i in 0..number_of_tests {
         let new_matcha_price: u128 = get_matcha_price(i).await.unwrap();
         let new_1inch_price: u128 = get_1inch_price(i).await.unwrap();
         let new_price = u128::max(new_1inch_price, new_matcha_price);
@@ -116,6 +118,7 @@ async fn main() -> Result<(), Error> {
                     price_diff, previous_result_price, new_price
                 );
                 price_change += 1;
+                sum_price_differences = sum_price_differences + (1_f64 - price_diff).abs();
             }
         }
         // if new_matcha_price > new_1inch_price {
@@ -133,6 +136,12 @@ async fn main() -> Result<(), Error> {
         "On average the price changed by {:?} / {:?}",
         price_change, duration
     );
+    if price_change > 0 {
+        println!(
+            "Average price change is in {:?}",
+            sum_price_differences as f64 / price_change as f64
+        );
+    }
     Ok(())
 }
 
